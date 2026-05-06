@@ -1,9 +1,19 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.flywaydb:flyway-database-postgresql:11.18.0")
+	}
+}
+
 plugins {
 	kotlin("jvm") version "2.3.21"
 	kotlin("plugin.spring") version "2.3.21"
 	war
 	id("org.springframework.boot") version "4.0.6"
 	id("io.spring.dependency-management") version "1.1.7"
+	id("org.flywaydb.flyway") version "11.18.0"
 }
 
 group = "io.github.shino0526y"
@@ -18,6 +28,12 @@ java {
 repositories {
 	mavenCentral()
 }
+
+val postgresHost = providers.environmentVariable("POSTGRES_HOST").orElse("localhost")
+val postgresPort = providers.environmentVariable("POSTGRES_PORT").orElse("5432")
+val postgresDb = providers.environmentVariable("POSTGRES_DB").orElse("book_api")
+val postgresUser = providers.environmentVariable("POSTGRES_USER").orElse("book_api")
+val postgresPassword = providers.environmentVariable("POSTGRES_PASSWORD").orElse("book_api")
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-flyway")
@@ -37,6 +53,15 @@ kotlin {
 	compilerOptions {
 		freeCompilerArgs.addAll("-Xjsr305=strict", "-Xannotation-default-target=param-property")
 	}
+}
+
+flyway {
+	url = "jdbc:postgresql://${postgresHost.get()}:${postgresPort.get()}/${postgresDb.get()}"
+	user = postgresUser.get()
+	password = postgresPassword.get()
+	locations = arrayOf("filesystem:${projectDir}/src/main/resources/db/migration")
+	baselineOnMigrate = true
+	cleanDisabled = false
 }
 
 tasks.withType<Test> {

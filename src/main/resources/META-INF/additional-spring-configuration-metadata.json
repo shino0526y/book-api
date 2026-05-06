@@ -1,0 +1,24 @@
+{
+  "properties": [
+    {
+      "name": "springdoc.api-docs.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Enable the generated OpenAPI JSON endpoint."
+    },
+    {
+      "name": "springdoc.swagger-ui.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Enable the Swagger UI endpoint."
+    },
+    {
+      "name": "springdoc.swagger-ui.path",
+      "type": "java.lang.String",
+      "description": "Customize the Swagger UI entry path."
+    },
+    {
+      "name": "springdoc.swagger-ui.disable-swagger-default-url",
+      "type": "java.lang.Boolean",
+      "description": "Disable the default petstore URL in Swagger UI."
+    }
+  ]
+}

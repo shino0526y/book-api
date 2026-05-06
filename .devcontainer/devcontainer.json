@@ -1,14 +1,23 @@
 {
   "name": "Book API Dev Container",
-  "dockerComposeFile": "compose.yml",
-  "service": "app",
-  "runServices": ["postgres"],
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
   "workspaceFolder": "/workspaces/book-api",
-  "shutdownAction": "stopCompose",
   "remoteUser": "vscode",
   "containerEnv": {
-    "GRADLE_USER_HOME": "/workspaces/book-api/.gradle"
+    "GRADLE_USER_HOME": "/workspaces/book-api/.gradle",
+    "POSTGRES_HOST": "127.0.0.1",
+    "POSTGRES_PORT": "5432",
+    "POSTGRES_DB": "book_api",
+    "POSTGRES_USER": "book_api",
+    "POSTGRES_PASSWORD": "book_api",
+    "SPRING_DATASOURCE_URL": "jdbc:postgresql://127.0.0.1:5432/book_api",
+    "SPRING_DATASOURCE_USERNAME": "book_api",
+    "SPRING_DATASOURCE_PASSWORD": "book_api"
   },
+  "postStartCommand": "bash -lc \"sudo service postgresql start && if ! sudo -u postgres psql -Atqc \\\"SELECT rolname FROM pg_roles\\\" | grep -qx book_api; then sudo -u postgres psql -c \\\"CREATE ROLE book_api WITH LOGIN PASSWORD 'book_api'\\\"; fi && if ! sudo -u postgres psql -Atqc \\\"SELECT datname FROM pg_database\\\" | grep -qx book_api; then sudo -u postgres psql -c \\\"CREATE DATABASE book_api OWNER book_api\\\"; fi\"",
   "forwardPorts": [5432, 8080],
   "portsAttributes": {
     "5432": {
@@ -22,7 +31,11 @@
   },
   "customizations": {
     "vscode": {
-      "extensions": ["vscjava.vscode-java-pack", "vmware.vscode-spring-boot", "bradymholt.pgformatter"],
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "vmware.vscode-spring-boot",
+        "bradymholt.pgformatter"
+      ],
       "settings": {
         "java.import.gradle.wrapper.enabled": true
       }

@@ -1,5 +1,6 @@
 .vscode/
 .kotlin/
 .gradle/
-build/
+build/*
 bin/
+!build/generated-src/

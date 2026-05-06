@@ -22,7 +22,7 @@
   },
   "customizations": {
     "vscode": {
-      "extensions": ["vscjava.vscode-java-pack", "vmware.vscode-spring-boot"],
+      "extensions": ["vscjava.vscode-java-pack", "vmware.vscode-spring-boot", "bradymholt.pgformatter"],
       "settings": {
         "java.import.gradle.wrapper.enabled": true
       }

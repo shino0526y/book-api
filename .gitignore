@@ -1,0 +1,4 @@
+.vscode/
+.kotlin/
+.gradle/
+build/

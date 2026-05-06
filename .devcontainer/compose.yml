@@ -1,0 +1,39 @@
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ..:/workspaces/book-api:cached
+    command: sleep infinity
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      GRADLE_USER_HOME: /workspaces/book-api/.gradle
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: book_api
+      POSTGRES_USER: book_api
+      POSTGRES_PASSWORD: book_api
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/book_api
+      SPRING_DATASOURCE_USERNAME: book_api
+      SPRING_DATASOURCE_PASSWORD: book_api
+
+  postgres:
+    image: postgres:18.3-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: book_api
+      POSTGRES_USER: book_api
+      POSTGRES_PASSWORD: book_api
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U book_api -d book_api" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres-data:

@@ -6,6 +6,9 @@
   },
   "workspaceFolder": "/workspaces/book-api",
   "remoteUser": "vscode",
+  "mounts": [
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/vscode/.ssh,type=bind"
+  ],
   "containerEnv": {
     "GRADLE_USER_HOME": "/workspaces/book-api/.gradle",
     "POSTGRES_HOST": "127.0.0.1",
